@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outer Measure & Human Judgment</title>
+<style>
+  /* Google Sites compatible: no external font requests, no fixed positioning */
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --border: #2a2a35;
+    --accent: #c8a96e;
+    --accent2: #7eb8c9;
+    --accent3: #d4756b;
+    --text: #e8e4dc;
+    --muted: #7a7880;
+    --font-serif: Georgia, 'Times New Roman', serif;
+    --font-mono: 'Courier New', Courier, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 4rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  /* Main thesis */
+  .thesis-band {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem;
+    margin: 3rem 0;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .thesis-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .thesis-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 0.3rem;
+    min-width: 80px;
+  }
+
+  .thesis-text {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  /* Properties section */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+
+  .card {
+    background: var(--bg);
+    padding: 2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover { background: var(--surface); }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    transition: height 0.3s ease;
+  }
+
+  .card:hover::before { height: 100%; }
+  .card:nth-child(1)::before { background: var(--accent); }
+  .card:nth-child(2)::before { background: var(--accent2); }
+  .card:nth-child(3)::before { background: var(--accent3); }
+  .card:nth-child(4)::before { background: #9b8bc4; }
+
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .card:nth-child(1) .card-title { color: var(--accent); }
+  .card:nth-child(2) .card-title { color: var(--accent2); }
+  .card:nth-child(3) .card-title { color: var(--accent3); }
+  .card:nth-child(4) .card-title { color: #9b8bc4; }
+
+  .card-math {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding: 0.5em 0.8em;
+    background: rgba(255,255,255,0.03);
+    border-left: 2px solid var(--border);
+    display: inline-block;
+  }
+
+  .card-body {
+    font-size: 0.88rem;
+    color: #a09ea8;
+    line-height: 1.7;
+    font-weight: 300;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .card.open .card-body { max-height: 200px; }
+
+  .card-toggle {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Bridge section */
+  .bridge {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.1s;
+  }
+
+  .bridge-box {
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba(200,169,110,0.04) 0%, transparent 60%);
+  }
+
+  .bridge-box h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+
+  .bridge-box p {
+    font-size: 0.9rem;
+    color: #a09ea8;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .bridge-box .quote-mark {
+    position: absolute;
+    top: 1rem; right: 2rem;
+    font-family: var(--font-serif);
+    font-size: 6rem;
+    color: rgba(200,169,110,0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* Progress meter visual */
+  .meter-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.3s;
+  }
+
+  .meter-title {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .spectrum {
+    display: flex;
+    align-items: stretch;
+    height: 80px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .spectrum-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    transition: flex 0.5s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .spectrum-block:hover { flex: 2; }
+
+  .spectrum-block span { 
+    font-size: 0.55rem; 
+    opacity: 0.7;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+
+  .s1 { background: rgba(200,169,110,0.15); color: var(--accent); }
+  .s2 { background: rgba(126,184,201,0.15); color: var(--accent2); border-left: 1px solid var(--border); }
+  .s3 { background: rgba(155,139,196,0.15); color: #9b8bc4; border-left: 1px solid var(--border); }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Academic Paper Summary</div>
+  <h1>Outer Measure and the<br><em>Arithmetic of Human Judgment</em></h1>
+  <p class="subtitle">A philosophical essay connecting mathematical measure theory to the cognitive biases, heuristics, and ethical dimensions of everyday human judgment.</p>
+</header>
+
+<div class="thesis-band">
+  <div class="thesis-inner">
+    <div class="thesis-label">Core Thesis</div>
+    <div class="thesis-text">"The mathematical concept of outer measure mirrors how humans assign size, weight, and significance to people, events, and ideas — often with systematic inflation. Refining our judgments toward measurability is an ethical act."</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <h2>Three Properties → Three Human Tendencies</h2>
+  </div>
+  <div class="cards">
+    <div class="card" onclick="toggle(this)">
+      <div class="card-num">01 / PROPERTY</div>
+      <div class="card-title">Empty Set<br>= Zero</div>
+      <div class="card-math">μ(∅) = 0</div>
+      <div class="card-body">The mind resists assigning zero to absence. Silence gets interpreted as hostility; delay as betrayal. Discipline means refusing to measure what isn't there — especially important for planning and executive function.</div>
+      <div class="card-toggle">↓ expand</div>
+    </div>
+    <div class="card" onclick="toggle(this)">
+      <div class="card-num">02 / PROPERTY</div>
+      <div class="card-title">Mono-<br>tonicity</div>
+      <div class="card-math">A ⊆ B → μ(A) ≤ μ(B)</div>
+      <div class="card-body">When individuals are placed inside larger narratives — institutions, nations, legal systems — the containing story inflates perceived stakes. Nothing physical changes, but context enlarges consequences irreversibly.</div>
+      <div class="card-toggle">↓ expand</div>
+    </div>
+    <div class="card" onclick="toggle(this)">
+      <div class="card-num">03 / PROPERTY</div>
+      <div class="card-title">Countable Sub-<br>additivity</div>
+      <div class="card-math">μ(⋃Aᵢ) ≤ Σμ(Aᵢ)</div>
+      <div class="card-body">We accumulate fears and grievances as though they were independent, adding them without subtracting overlap. The mind prefers caution to precision — leading to inflated threat perception and bias.</div>
+      <div class="card-toggle">↓ expand</div>
+    </div>
+    <div class="card" onclick="toggle(this)">
+      <div class="card-num">04 / REFINEMENT</div>
+      <div class="card-title">Measur-<br>ability</div>
+      <div class="card-math">Caratheodory criterion</div>
+      <div class="card-body">Not all sets are measurable. Similarly, not all judgments survive scrutiny. Measurability represents judgment that has been revisited — overlap subtracted, assumptions deflated, emptiness restored where imagination intruded.</div>
+      <div class="card-toggle">↓ expand</div>
+    </div>
+  </div>
+</div>
+
+<div class="bridge">
+  <div class="bridge-box">
+    <span class="quote-mark">"</span>
+    <h3>The Ethical Conclusion</h3>
+    <p>Outer measure is our <em>first draft</em> — generous, cautious, built for survival. Maturity means returning to that draft with discipline: subtracting overlap, shrinking fear-inflated narratives, and restoring emptiness where imagination intruded. The movement from outer measure to measured judgment is, quietly, the ethical labor of becoming a more just observer of one another.</p>
+  </div>
+</div>
+
+<div class="meter-section">
+  <div class="meter-title">The Journey of Judgment — Three Stages</div>
+  <div class="spectrum">
+    <div class="spectrum-block s1">
+      <strong>Outer Measure</strong>
+      <span>Instinct, caution, inflation — first draft</span>
+    </div>
+    <div class="spectrum-block s2">
+      <strong>Awareness</strong>
+      <span>Recognizing bias, double-counting, overlap</span>
+    </div>
+    <div class="spectrum-block s3">
+      <strong>Measured Judgment</strong>
+      <span>Integrity, refinement, ethical clarity</span>
+    </div>
+  </div>
+  <p style="font-family:monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;">↑ Hover each stage to expand</p>
+</div>
+
+<footer>Outer Measure &amp; Human Judgment &nbsp;·&nbsp; Interactive Summary &nbsp;·&nbsp; Click cards to expand details</footer>
+
+<script>
+function toggle(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.card-toggle').textContent = '↓ expand';
+  });
+  if (!isOpen) {
+    card.classList.add('open');
+    card.querySelector('.card-toggle').textContent = '↑ collapse';
+  }
+}
+</script>
+</body>
+</html>
