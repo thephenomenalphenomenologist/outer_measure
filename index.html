@@ -18,44 +18,6 @@
     --font-mono: 'Courier New', Courier, monospace;
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   }
-.spectrum-block img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity 0.5s ease;
-  z-index:0;
-}
-
-.spectrum-block:hover img{
-  opacity:0.35;
-}
-
-.spectrum-block strong,
-.spectrum-block span{
-  position:relative;
-  z-index:1;
-}
-
-<div class="spectrum">
-  <div class="spectrum-block s1">
-        <strong>Outer Measure</strong>
-    <span>Instinct, caution, inflation — first draft</span>
-  </div>
-
-  <div class="spectrum-block s2">
-    <strong>Awareness</strong>
-    <span>Recognizing bias, double-counting, overlap</span>
-  </div>
-
-  <div class="spectrum-block s3">
-    <strong>Measured Judgment</strong>
-    <span>Integrity, refinement, ethical clarity</span>
-  </div>
-</div>
-
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -302,7 +264,64 @@
     pointer-events: none;
   }
 
-  /* Progress meter visual */
+  /* Blog link */
+  .blog-link-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .blog-link-box {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: rgba(200,169,110,0.03);
+    transition: background 0.2s;
+  }
+
+  .blog-link-box:hover { background: rgba(200,169,110,0.07); }
+
+  .blog-link-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .blog-link-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  .blog-link-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.6em 1.2em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .blog-link-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* Spectrum */
   .meter-section {
     max-width: 900px;
     margin: 0 auto;
@@ -346,11 +365,15 @@
 
   .spectrum-block:hover { flex: 2; }
 
-  .spectrum-block span { 
-    font-size: 0.55rem; 
+  .spectrum-block strong { position: relative; z-index: 1; }
+
+  .spectrum-block span {
+    font-size: 0.55rem;
     opacity: 0.7;
     text-align: center;
     padding: 0 0.5rem;
+    position: relative;
+    z-index: 1;
   }
 
   .s1 { background: rgba(200,169,110,0.15); color: var(--accent); }
@@ -377,49 +400,49 @@
 <body>
 
 <header>
-  <div class="tag">Academic Paper Summary</div>
+  <div class="tag">Paper Summary</div>
   <h1>Outer Measure and the<br><em>Arithmetic of Human Judgment</em></h1>
-  <p class="subtitle">A philosophical essay connecting mathematical measure theory to the cognitive biases, heuristics, and ethical dimensions of everyday human judgment.</p>
+  <p class="subtitle">How a concept from math reveals why we overestimate threats, inflate stakes, and how to think more clearly.</p>
 </header>
 
 <div class="thesis-band">
   <div class="thesis-inner">
-    <div class="thesis-label">Core Thesis</div>
-    <div class="thesis-text">"The mathematical concept of outer measure mirrors how humans assign size, weight, and significance to people, events, and ideas — often with systematic inflation. Refining our judgments toward measurability is an ethical act."</div>
+    <div class="thesis-label">Core Idea</div>
+    <div class="thesis-text">"We size up people and situations the way math sizes up sets — with a bias toward inflation. Correcting that bias is an ethical act."</div>
   </div>
 </div>
 
 <div class="section">
   <div class="section-header">
-    <h2>Three Properties → Three Human Tendencies</h2>
+    <h2>Three Math Rules → Three Human Habits</h2>
   </div>
   <div class="cards">
     <div class="card" onclick="toggle(this)">
       <div class="card-num">01 / PROPERTY</div>
       <div class="card-title">Empty Set<br>= Zero</div>
       <div class="card-math">μ(∅) = 0</div>
-      <div class="card-body">The mind resists assigning zero to absence. Silence gets interpreted as hostility; delay as betrayal. Discipline means refusing to measure what isn't there — especially important for planning and executive function.</div>
+      <div class="card-body">We struggle to assign zero to nothing. Silence reads as hostility; a delay feels like betrayal. Clear thinking means refusing to measure what isn't there.</div>
       <div class="card-toggle">↓ expand</div>
     </div>
     <div class="card" onclick="toggle(this)">
       <div class="card-num">02 / PROPERTY</div>
       <div class="card-title">Mono-<br>tonicity</div>
       <div class="card-math">A ⊆ B → μ(A) ≤ μ(B)</div>
-      <div class="card-body">When individuals are placed inside larger narratives — institutions, nations, legal systems — the containing story inflates perceived stakes. Nothing physical changes, but context enlarges consequences irreversibly.</div>
+      <div class="card-body">Drop a person into a bigger story — a lawsuit, a nation, a scandal — and the stakes feel larger, even when nothing changed. Context inflates.</div>
       <div class="card-toggle">↓ expand</div>
     </div>
     <div class="card" onclick="toggle(this)">
       <div class="card-num">03 / PROPERTY</div>
       <div class="card-title">Countable Sub-<br>additivity</div>
       <div class="card-math">μ(⋃Aᵢ) ≤ Σμ(Aᵢ)</div>
-      <div class="card-body">We accumulate fears and grievances as though they were independent, adding them without subtracting overlap. The mind prefers caution to precision — leading to inflated threat perception and bias.</div>
+      <div class="card-body">We stack fears and grievances as if they don't overlap. They almost always do. The result: threat perception bloated well beyond reality.</div>
       <div class="card-toggle">↓ expand</div>
     </div>
     <div class="card" onclick="toggle(this)">
       <div class="card-num">04 / REFINEMENT</div>
       <div class="card-title">Measur-<br>ability</div>
-      <div class="card-math">Caratheodory criterion</div>
-      <div class="card-body">Not all sets are measurable. Similarly, not all judgments survive scrutiny. Measurability represents judgment that has been revisited — overlap subtracted, assumptions deflated, emptiness restored where imagination intruded.</div>
+      <div class="card-math">Carathéodory criterion</div>
+      <div class="card-body">Not every set can be measured — and not every judgment survives scrutiny. Measurability means going back, removing overlap, and deflating what fear or imagination added.</div>
       <div class="card-toggle">↓ expand</div>
     </div>
   </div>
@@ -428,8 +451,18 @@
 <div class="bridge">
   <div class="bridge-box">
     <span class="quote-mark">"</span>
-    <h3>The Ethical Conclusion</h3>
-    <p>Outer measure is our <em>first draft</em> — generous, cautious, built for survival. Maturity means returning to that draft with discipline: subtracting overlap, shrinking fear-inflated narratives, and restoring emptiness where imagination intruded. The movement from outer measure to measured judgment is, quietly, the ethical labor of becoming a more just observer of one another.</p>
+    <h3>The Takeaway</h3>
+    <p>Outer measure is the first draft — cautious, generous, built for survival. Maturity means returning to that draft with discipline: cutting the overlap, deflating the fear, and letting nothing stand where there's nothing. That work — quiet and unglamorous — is what it takes to judge one another fairly.</p>
+  </div>
+</div>
+
+<div class="blog-link-section">
+  <div class="blog-link-box">
+    <div>
+      <div class="blog-link-label">Read More</div>
+      <div class="blog-link-title">Full essay on The Phenomenal Phenomenologist</div>
+    </div>
+    <a class="blog-link-btn" href="https://thephenomenalphenomenologist.blog" target="_blank" rel="noopener">Read the Essay →</a>
   </div>
 </div>
 
@@ -438,21 +471,21 @@
   <div class="spectrum">
     <div class="spectrum-block s1">
       <strong>Outer Measure</strong>
-      <span>Instinct, caution, inflation — first draft</span>
+      <span>Raw instinct — inflated first draft</span>
     </div>
     <div class="spectrum-block s2">
       <strong>Awareness</strong>
-      <span>Recognizing bias, double-counting, overlap</span>
+      <span>Spotting bias and double-counting</span>
     </div>
     <div class="spectrum-block s3">
       <strong>Measured Judgment</strong>
-      <span>Integrity, refinement, ethical clarity</span>
+      <span>Clarity, honesty, no excess</span>
     </div>
   </div>
   <p style="font-family:monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;">↑ Hover each stage to expand</p>
 </div>
 
-<footer>Outer Measure &amp; Human Judgment &nbsp;·&nbsp; Interactive Summary &nbsp;·&nbsp; Click cards to expand details</footer>
+<footer>Outer Measure &amp; Human Judgment &nbsp;·&nbsp; Interactive Summary &nbsp;·&nbsp; Click cards to expand</footer>
 
 <script>
 function toggle(card) {
